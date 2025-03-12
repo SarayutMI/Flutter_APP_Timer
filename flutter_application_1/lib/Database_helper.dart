@@ -46,4 +46,16 @@ class DatabaseHelper {
     final db = await instance.database;
     return await db.query('stats', where: 'date BETWEEN ? AND ?', whereArgs: [startDate, endDate]);
   }
+
+  // ฟังก์ชันกรองข้อมูลตามเดือน (ใช้ strftime('%Y-%m', date))
+  Future<List<Map<String, dynamic>>> getStatsByMonth(String yearMonth) async {
+    final db = await instance.database;
+    return await db.query('stats', where: "strftime('%Y-%m', date) = ?", whereArgs: [yearMonth]);
+  }
+
+  // ฟังก์ชันกรองข้อมูลตามปี (ใช้ strftime('%Y', date))
+  Future<List<Map<String, dynamic>>> getStatsByYear(String year) async {
+    final db = await instance.database;
+    return await db.query('stats', where: "strftime('%Y', date) = ?", whereArgs: [year]);
+  }
 }
